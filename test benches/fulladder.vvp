@@ -1,0 +1,63 @@
+#! /c/iverilog/bin/vvp
+:ivl_version "0.9.7 " "(v0_9_7)";
+:vpi_time_precision - 9;
+:vpi_module "system";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_012C7998 .scope module, "testbench" "testbench" 2 3;
+ .timescale -8 -9;
+v01151190_0 .var "a", 0 0;
+v011511E8_0 .var "b", 0 0;
+v011513A0_0 .var "c", 0 0;
+v01150E78_0 .net "cout", 0 0, L_012C3A68; 1 drivers
+v01151558_0 .var/i "i", 31 0;
+v01151500_0 .net "sum", 0 0, L_012C3AD8; 1 drivers
+S_012C6EF8 .scope module, "FA" "full_adder" 2 11, 3 1, S_012C7998;
+ .timescale -8 -9;
+L_012C4698 .functor XOR 1, v01151190_0, v011511E8_0, C4<0>, C4<0>;
+L_012C3AD8 .functor XOR 1, L_012C4698, v011513A0_0, C4<0>, C4<0>;
+L_012CEE60 .functor AND 1, v01151190_0, v011511E8_0, C4<1>, C4<1>;
+L_012CEE98 .functor AND 1, v011511E8_0, v011513A0_0, C4<1>, C4<1>;
+L_012C3AA0 .functor OR 1, L_012CEE60, L_012CEE98, C4<0>, C4<0>;
+L_012CEFA8 .functor AND 1, v011513A0_0, v01151190_0, C4<1>, C4<1>;
+L_012C3A68 .functor OR 1, L_012C3AA0, L_012CEFA8, C4<0>, C4<0>;
+v01133628_0 .net *"_s0", 0 0, L_012C4698; 1 drivers
+v012C80C0_0 .net *"_s10", 0 0, L_012CEFA8; 1 drivers
+v01133B00_0 .net *"_s4", 0 0, L_012CEE60; 1 drivers
+v01133B58_0 .net *"_s6", 0 0, L_012CEE98; 1 drivers
+v01133BB0_0 .net *"_s8", 0 0, L_012C3AA0; 1 drivers
+v012C4590_0 .net "a", 0 0, v01151190_0; 1 drivers
+v012C45E8_0 .net "b", 0 0, v011511E8_0; 1 drivers
+v012C4640_0 .net "c", 0 0, v011513A0_0; 1 drivers
+v012C39B8_0 .alias "co", 0 0, v01150E78_0;
+v012C3A10_0 .alias "s", 0 0, v01151500_0;
+    .scope S_012C7998;
+T_0 ;
+    %vpi_call 2 14 "$dumpfile", "fulladder.vcd";
+    %vpi_call 2 15 "$dumpvars", 1'sb0, S_012C7998;
+    %set/v v01151558_0, 0, 32;
+T_0.0 ;
+    %load/v 8, v01151558_0, 32;
+   %cmpi/s 8, 8, 32;
+    %jmp/0xz T_0.1, 5;
+    %load/v 8, v01151558_0, 32;
+    %set/v v011513A0_0, 8, 1;
+    %set/v v011511E8_0, 9, 1;
+    %set/v v01151190_0, 10, 1;
+    %delay 50, 0;
+    %vpi_call 2 19 "$display", "T=%2d a=%b b=%b c=%b sum=%b cout=%b", $time, v01151190_0, v011511E8_0, v011513A0_0, v01151500_0, v01150E78_0;
+    %ix/load 0, 1, 0;
+    %load/vp0/s 8, v01151558_0, 32;
+    %set/v v01151558_0, 8, 32;
+    %jmp T_0.0;
+T_0.1 ;
+    %delay 50, 0;
+    %vpi_call 2 22 "$finish";
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "full_adder_test.v";
+    "fulladder.v";
