@@ -31,7 +31,7 @@ initial
             #10 write = 0;
         end
         #20
-        for (k=0 ; k<32 ; k=k+1)
+        for (k=0 ; k<32 ; k=k+2)
         begin
             sr1 = k;
             sr2 = k+1;
